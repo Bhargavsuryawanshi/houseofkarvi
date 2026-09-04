@@ -1,0 +1,97 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+    function isEmailVerified() { return request.auth.token.email_verified == true; }
+    
+    // Admin check: check if the user is in the admins collection OR if they are the bootstrapped admin
+    function isAdmin() { 
+      return isSignedIn() && isEmailVerified() && (
+        request.auth.token.email == 'bhargavsuryawanshi99@gmail.com' || 
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Admins Validation
+    function isValidAdmin(data) {
+      return data.keys().hasAll(['email', 'createdAt']) && data.keys().size() == 2 &&
+             data.email is string && data.email.size() <= 200 &&
+             data.createdAt == request.time;
+    }
+    
+    match /admins/{userId} {
+      allow get: if isAdmin();
+      allow list: if isAdmin();
+      allow create: if isValidId(userId) && isAdmin() && isValidAdmin(incoming());
+      allow update: if false; // admins cannot be updated, only added or removed
+      allow delete: if isAdmin();
+    }
+
+    // Product Validation
+    function isValidProductCreate(data) {
+      return data.keys().hasAll(['title', 'description', 'category', 'price', 'inStock', 'imageUrl', 'createdAt', 'updatedAt']) && 
+             data.keys().size() == 8 &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 100 &&
+             data.description is string && data.description.size() >= 0 && data.description.size() <= 1000 &&
+             data.category is string && data.category in ['beds', 'chairs', 'sofas', 'tables', 'wardrobes', 'other'] &&
+             data.price is number &&
+             data.inStock is bool &&
+             data.imageUrl is string && data.imageUrl.size() <= 500 &&
+             data.createdAt == request.time && data.updatedAt == request.time;
+    }
+    
+    function isValidProductUpdate(data) {
+      return data.title is string && data.title.size() >= 1 && data.title.size() <= 100 &&
+             data.description is string && data.description.size() >= 0 && data.description.size() <= 1000 &&
+             data.category is string && data.category in ['beds', 'chairs', 'sofas', 'tables', 'wardrobes', 'other'] &&
+             data.price is number &&
+             data.inStock is bool &&
+             data.imageUrl is string && data.imageUrl.size() <= 500 &&
+             data.createdAt == existing().createdAt && data.updatedAt == request.time;
+    }
+
+    match /products/{productId} {
+      allow get: if isValidId(productId); // publicly readable
+      allow list: if true; // publicly readable
+      allow create: if isValidId(productId) && isAdmin() && isValidProductCreate(incoming());
+      allow update: if isValidId(productId) && isAdmin() && isValidProductUpdate(incoming()) &&
+                    incoming().diff(existing()).affectedKeys().hasOnly(['title', 'description', 'category', 'price', 'inStock', 'imageUrl', 'updatedAt']);
+      allow delete: if isValidId(productId) && isAdmin();
+    }
+    
+    // Inquiry Validation
+    function isValidInquiryCreate(data) {
+      return data.keys().hasAll(['customerName', 'customerEmail', 'message', 'status', 'createdAt', 'updatedAt']) && 
+             data.keys().size() == 6 &&
+             data.customerName is string && data.customerName.size() >= 1 && data.customerName.size() <= 100 &&
+             data.customerEmail is string && data.customerEmail.size() >= 1 && data.customerEmail.size() <= 100 &&
+             data.message is string && data.message.size() >= 1 && data.message.size() <= 2000 &&
+             data.status is string && data.status == 'new' &&
+             data.createdAt == request.time && data.updatedAt == request.time;
+    }
+
+    function isValidInquiryUpdate(data) {
+      return data.customerName == existing().customerName &&
+             data.customerEmail == existing().customerEmail &&
+             data.message == existing().message &&
+             data.status is string && data.status in ['new', 'read', 'replied', 'archived'] &&
+             data.createdAt == existing().createdAt && data.updatedAt == request.time;
+    }
+
+    match /inquiries/{inquiryId} {
+      allow get: if isValidId(inquiryId) && isAdmin(); // Only admins can read inquiries
+      allow list: if isAdmin(); // Only admins can read inquiries
+      allow create: if isValidId(inquiryId) && isValidInquiryCreate(incoming()); // Anyone can create an inquiry
+      allow update: if isValidId(inquiryId) && isAdmin() && isValidInquiryUpdate(incoming()) &&
+                    incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']); // Only status and updatedAt can be changed by admins
+      allow delete: if isValidId(inquiryId) && isAdmin();
+    }
+  }
+}

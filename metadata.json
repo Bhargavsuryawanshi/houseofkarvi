@@ -1,0 +1,6 @@
+{
+  "name": "Houseofkarvi",
+  "description": "Premium luxury furniture brand featuring editorial storytelling, minimalist Japandi design, and unparalleled craftsmanship.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

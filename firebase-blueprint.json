@@ -1,0 +1,105 @@
+{
+  "entities": {
+    "Admin": {
+      "title": "Admin",
+      "description": "Represents an administrator user",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Admin email address"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when admin was created"
+        }
+      },
+      "required": ["email", "createdAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "A furniture product in the catalog",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "description": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "category": {
+          "type": "string",
+          "enum": ["beds", "chairs", "sofas", "tables", "wardrobes", "other"]
+        },
+        "price": {
+          "type": "number"
+        },
+        "inStock": {
+          "type": "boolean"
+        },
+        "imageUrl": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["title", "description", "category", "price", "inStock", "imageUrl", "createdAt", "updatedAt"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "A customer inquiry from the contact form",
+      "type": "object",
+      "properties": {
+        "customerName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "customerEmail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "status": {
+          "type": "string",
+          "enum": ["new", "read", "replied", "archived"]
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["customerName", "customerEmail", "message", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "admins/{userId}": {
+      "schema": { "$ref": "#/entities/Admin" },
+      "description": "Stores admin user records"
+    },
+    "products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Stores catalog products"
+    },
+    "inquiries/{inquiryId}": {
+      "schema": { "$ref": "#/entities/Inquiry" },
+      "description": "Stores customer inquiries"
+    }
+  }
+}

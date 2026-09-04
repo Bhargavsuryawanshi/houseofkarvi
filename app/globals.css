@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-brand-charcoal: var(--brand-charcoal);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-ivory: var(--brand-ivory);
+  --color-brand-beige: var(--brand-beige);
+  --color-brand-walnut: var(--brand-walnut);
+
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-outfit);
+}
+
+:root {
+  /* Default (Current) */
+  --brand-charcoal: #333232;
+  --brand-gold: #C19B6C;
+  --brand-ivory: #FAF9F6;
+  --brand-beige: #F3F0EA;
+  --brand-walnut: #5C4033;
+
+  --background: var(--brand-ivory);
+  --foreground: var(--brand-charcoal);
+}
+
+.theme-1 {
+  /* Modern Minimalist */
+  --brand-charcoal: #0A0A0A;
+  --brand-gold: #8C8C8C;
+  --brand-ivory: #FFFFFF;
+  --brand-beige: #F5F5F5;
+  --brand-walnut: #404040;
+  --background: var(--brand-ivory);
+  --foreground: var(--brand-charcoal);
+}
+
+.theme-2 {
+  /* Earth & Clay */
+  --brand-charcoal: #2C241B;
+  --brand-gold: #B85C38;
+  --brand-ivory: #FCF9F2;
+  --brand-beige: #EADCD0;
+  --brand-walnut: #5C4033;
+  --background: var(--brand-ivory);
+  --foreground: var(--brand-charcoal);
+}
+
+.theme-3 {
+  /* Midnight Emerald */
+  --brand-charcoal: #0F1A15;
+  --brand-gold: #D4AF37;
+  --brand-ivory: #E8F0EC;
+  --brand-beige: #1C2E25;
+  --brand-walnut: #070D0A;
+  --background: var(--brand-charcoal);
+  --foreground: var(--brand-ivory);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--brand-charcoal);
+    --foreground: var(--brand-ivory);
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+}
+
+/* Custom Selection */
+::selection {
+  background-color: var(--brand-gold);
+  color: var(--brand-ivory);
+}
+
+/* Utilities */
+.glass-effect {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm dark:bg-black/50 dark:border-white/10;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
