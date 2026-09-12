@@ -8,8 +8,8 @@ export default function Page() {
     <>
       <Hero />
       <Story />
-      <FeaturedCarousel />
       <Craftsmanship />
+      <FeaturedCarousel />
     </>
   );
 }

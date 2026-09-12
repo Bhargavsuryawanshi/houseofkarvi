@@ -1,23 +1,22 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, Outfit } from 'next/font/google';
+import { Montserrat, Quicksand } from 'next/font/google';
 import './globals.css';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ClientProviders } from '@/components/ClientProviders';
-import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 
-const playfair = Playfair_Display({ 
+const montserrat = Montserrat({ 
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-montserrat',
   weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
-const outfit = Outfit({
+const quicksand = Quicksand({
   subsets: ['latin'],
-  variable: '--font-outfit',
-  weight: ['300', '400', '500'],
+  variable: '--font-quicksand',
+  weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
 });
 
@@ -42,9 +41,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${outfit.variable}`}>
+    <html lang="en" className={`${montserrat.variable} ${quicksand.variable}`}>
       <body className="antialiased font-sans bg-background text-foreground" suppressHydrationWarning>
-        <ThemeSwitcher />
         <ClientProviders>
           <SmoothScroll>
             <Navbar />

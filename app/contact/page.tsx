@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '@/lib/firebase';
@@ -38,7 +37,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-32 pb-24 px-6 lg:px-12 bg-brand-beige min-h-screen">
+    <div className="pt-32 pb-24 px-6 lg:px-12 bg-brand-ivory min-h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           
@@ -48,7 +47,6 @@ export default function ContactPage() {
             <p className="text-brand-charcoal/70 text-lg leading-relaxed font-light mb-12">
               Our production has just begun, and every piece at Houseofkarvi is meticulously made to order. Once you select a design or share your ideas, we craft it exclusively for your space.
             </p>
-
             <div className="space-y-8">
               <div>
                 <h3 className="text-sm uppercase tracking-widest text-brand-gold font-medium mb-2">General Inquiries</h3>
@@ -67,7 +65,7 @@ export default function ContactPage() {
           </div>
 
           {/* Form Section */}
-          <div className="bg-brand-ivory p-8 md:p-12 shadow-sm">
+          <div className="bg-brand-beige p-8 md:p-12 shadow-sm">
             <h2 className="font-serif text-2xl text-brand-charcoal mb-8">Send an Inquiry</h2>
             {success ? (
               <div className="bg-green-50 text-green-800 p-8 flex flex-col items-center justify-center text-center">
@@ -96,12 +94,10 @@ export default function ContactPage() {
                     <input type="text" id="lastName" required value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} className="w-full bg-transparent border-b border-brand-charcoal/20 py-3 focus:outline-none focus:border-brand-charcoal transition-colors" />
                   </div>
                 </div>
-
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-xs uppercase tracking-widest text-brand-charcoal/70">Email Address</label>
                   <input type="email" id="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full bg-transparent border-b border-brand-charcoal/20 py-3 focus:outline-none focus:border-brand-charcoal transition-colors" />
                 </div>
-
                 <div className="space-y-2">
                   <label htmlFor="interest" className="text-xs uppercase tracking-widest text-brand-charcoal/70">Area of Interest</label>
                   <select id="interest" required value={formData.interest} onChange={(e) => setFormData({...formData, interest: e.target.value})} className="w-full bg-transparent border-b border-brand-charcoal/20 py-3 focus:outline-none focus:border-brand-charcoal transition-colors text-brand-charcoal">
@@ -111,19 +107,16 @@ export default function ContactPage() {
                     <option value="other">Other</option>
                   </select>
                 </div>
-
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-xs uppercase tracking-widest text-brand-charcoal/70">Message</label>
                   <textarea id="message" rows={4} required value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="w-full bg-transparent border-b border-brand-charcoal/20 py-3 focus:outline-none focus:border-brand-charcoal transition-colors resize-none"></textarea>
                 </div>
-
                 <button type="submit" disabled={loading} className="w-full bg-brand-charcoal text-brand-ivory py-4 text-sm font-medium uppercase tracking-widest hover:bg-brand-gold transition-colors mt-4 disabled:opacity-50">
                   {loading ? 'Submitting...' : 'Submit Inquiry'}
                 </button>
               </form>
             )}
           </div>
-
         </div>
       </div>
     </div>

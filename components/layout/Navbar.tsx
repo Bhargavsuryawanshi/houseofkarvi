@@ -8,9 +8,9 @@ import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 const navLinks = [
-  { name: 'Collections', href: '/collections' },
-  { name: 'Catalog', href: '/catalog' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Collection', href: '/#collection' },
+  { name: 'Catalogue', href: '/catalog' },
+  { name: 'Reach Us', href: '/contact' },
 ];
 
 export function Navbar() {
@@ -49,13 +49,13 @@ export function Navbar() {
           
           {/* Logo */}
           <Link href="/" className="relative z-50 flex items-center group">
-            <div className="relative h-10 w-100 sm:w-48 overflow-hidden">
+            <div className="relative h-10 sm:h-12 w-48 sm:w-56 overflow-visible">
                <Image 
-                src={logoSrc} 
-                alt="Houseofkarvi" 
-                fill 
-                className="object-contain object-left transition-all duration-500"
-                priority
+                 src={logoSrc} 
+                 alt="Houseofkarvi" 
+                 fill 
+                 className="object-contain object-left transition-all duration-500 origin-left scale-125 sm:scale-150"
+                 priority
               />
             </div>
           </Link>
