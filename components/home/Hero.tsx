@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
 
 const heroImages = [
-  '/PAGE_ONE_OF_FRONT_PAGE/.PNG/4.svg',
-  '/PAGE_ONE_OF_FRONT_PAGE/.PNG/5.svg',
-  '/PAGE_ONE_OF_FRONT_PAGE/.PNG/6.svg',
+  '/PAGE_ONE_OF_FRONT_PAGE/.PNG/4.png',
+  '/PAGE_ONE_OF_FRONT_PAGE/.PNG/5.png',
+  '/PAGE_ONE_OF_FRONT_PAGE/.PNG/6.png',
 ];
 
 export function Hero() {
