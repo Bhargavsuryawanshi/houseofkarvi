@@ -15,7 +15,6 @@
 }
 
 :root {
-  /* Default (Current) */
   --brand-charcoal: #201a18;
   --brand-gold: #795d5d;
   --brand-ivory: #ffffff;
@@ -24,10 +23,43 @@
 
   --background: var(--brand-ivory);
   --foreground: var(--brand-charcoal);
+
+  /* ===== FLUID DESIGN TOKENS ===== */
+  /* Scale with vw + vh together so both width AND height matter */
+
+  /* Typography */
+  --fs-eyebrow: clamp(0.65rem, 0.45vw + 0.3vh, 0.95rem);       /* small tracked labels e.g. "SHELL" */
+  --fs-label-lg: clamp(0.85rem, 0.65vw + 0.45vh, 1.4rem);      /* "DESIGNER BEHIND", "THE VISION" */
+  --fs-label-xl: clamp(1rem, 0.85vw + 0.6vh, 1.8rem);          /* "BEYOND THE LIMITS." */
+  --fs-name: clamp(1.05rem, 0.8vw + 0.55vh, 1.6rem);            /* "RUTU V. PATEL" */
+  --fs-body: clamp(0.75rem, 0.35vw + 0.35vh, 1rem);            /* paragraph text */
+  --fs-heading: clamp(1.4rem, 1.4vw + 0.8vh, 2.4rem);          /* section titles e.g. "COLLECTION" */
+
+  /* Spacing */
+  --space-section-y: clamp(1.5rem, 2.5vh, 4rem);
+  --space-gap-xl: clamp(1.2rem, 1.8vw + 1vh, 4.5rem);
+  --space-gap-lg: clamp(0.85rem, 1.2vw + 0.7vh, 2.8rem);
+  --space-gap-md: clamp(0.5rem, 0.8vw + 0.4vh, 1.5rem);
+  --space-gap-sm: clamp(0.35rem, 0.4vw + 0.25vh, 0.85rem);
+
+  /* Image column widths */
+  --img-col-max: clamp(200px, 20vw, 420px);
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --fs-eyebrow: 0.85rem;
+    --fs-label-lg: 1.35rem;
+    --fs-label-xl: 1.75rem;
+    --fs-name: 1.5rem;
+    --fs-body: 0.95rem;
+    --fs-heading: 2.25rem;
+    --space-gap-xl: 4rem;
+    --space-gap-lg: 2.5rem;
+  }
 }
 
 .theme-1 {
-  /* Modern Minimalist */
   --brand-charcoal: #0A0A0A;
   --brand-gold: #8C8C8C;
   --brand-ivory: #FFFFFF;
@@ -38,7 +70,6 @@
 }
 
 .theme-2 {
-  /* Earth & Clay */
   --brand-charcoal: #2C241B;
   --brand-gold: #B85C38;
   --brand-ivory: #FCF9F2;
@@ -49,7 +80,6 @@
 }
 
 .theme-3 {
-  /* Midnight Emerald */
   --brand-charcoal: #0F1A15;
   --brand-gold: #D4AF37;
   --brand-ivory: #E8F0EC;
@@ -78,13 +108,11 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
 }
 
-/* Custom Selection */
 ::selection {
   background-color: var(--brand-gold);
   color: var(--brand-ivory);
 }
 
-/* Text Gradients */
 .text-gradient-dark {
   background: linear-gradient(135deg, #201a18, #795d5d);
   -webkit-background-clip: text;
@@ -101,11 +129,88 @@ h1, h2, h3, h4, h5, h6 {
   color: transparent;
 }
 
-/* Utilities */
 .glass-effect {
   @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm dark:bg-black/50 dark:border-white/10;
 }
 
 .text-balance {
   text-wrap: balance;
+}
+
+/* ===== SECTION-AS-VIEWPORT UTILITY =====
+   Properly clears fixed navbar at top (calc(4.25rem + ...)),
+   centers content in the available space, and prevents
+   overflow on 13-inch displays and desktop screens. */
+.section-fit {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: calc(4.25rem + clamp(0.5rem, 1.2vh, 1.5rem));
+  padding-bottom: clamp(1rem, 2vh, 2rem);
+  box-sizing: border-box;
+  position: relative;
+}
+
+@media (min-width: 1024px) and (min-height: 600px) {
+  .section-fit {
+    height: 100svh;
+    max-height: 100svh;
+  }
+}
+
+/* ============================================================
+   APPEND THIS TO THE END OF app/globals.css
+   ============================================================
+
+   THE CORE FIX.
+
+   Tailwind's whole spacing scale (py-12, gap-8, mb-6, text-lg...)
+   is rem-based - every one of those values is a multiple of the
+   root font size. So scaling the root font size with the viewport
+   scales the ENTIRE design proportionally, as one unit.
+
+   This is what makes it "genuinely responsive" rather than just
+   "smaller": at 3840px everything (text, padding, gaps, captions)
+   grows together and keeps the same proportions as your design
+   preview, instead of text staying 14px while only the gaps grew
+   (which is what made previous attempts look wrong at every size).
+
+   Linear scale, with floor and ceiling:
+     1280px viewport -> ~15.0px root
+     1555px viewport -> ~16.6px root  (16" laptop)
+     1920px viewport -> ~18.6px root
+     2560px viewport -> ~22.1px root
+     3840px viewport -> 26px root (ceiling reached)
+   ============================================================ */
+
+html {
+  font-size: clamp(13px, 0.55vw + 8px, 26px);
+}
+
+/* ============================================================
+   THE SHARED CONTAINER.
+
+   Answers point 2 (navbar/content constrained like a centered
+   grid while the hero fills the window).
+
+   Cause: Hero.tsx is full-bleed with no width cap, but Navbar,
+   Story, Craftsmanship, Collection and Footer each had their own
+   max-width (max-w-7xl = 1280px, max-w-[1400px]). Past those
+   widths they freeze and centre, so the hero keeps filling the
+   screen while everything else stops - that's the inconsistency.
+
+   Fix: one container, no pixel max-width at all. Side margin is a
+   PERCENTAGE of viewport width (5.5vw each side), which is what
+   your design preview actually uses - measuring the preview, the
+   content spans ~89% of the width with ~5.5% margins on each side.
+   A percentage holds that exact proportion at 1280px and at
+   3840px alike, so the design reads identically at any size and
+   nothing ever "freezes" into a centred grid.
+   ============================================================ */
+
+.site-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 5.5vw;
 }

@@ -3,8 +3,9 @@ import Image from 'next/image';
 
 export function Footer() {
   return (
-    <footer className="bg-[#333232] text-white/90 pt-16 pb-16 px-6 lg:px-12 mt-20">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 items-start">
+    <footer className="bg-[#333232] text-white/90 pt-12 pb-12 mt-12">
+      {/* CHANGED: max-w-7xl mx-auto -> site-container (point 2), mt-20 -> mt-12 (point 3) */}
+      <div className="site-container grid grid-cols-1 md:grid-cols-4 gap-10 items-start">
         <div className="md:col-span-1">
           <Link href="/" className="block relative h-10 w-48 opacity-90 overflow-visible">
              <Image 

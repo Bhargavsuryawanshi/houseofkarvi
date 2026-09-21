@@ -7,8 +7,9 @@ export default function CatalogPage() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <div className="pt-32 pb-24 px-6 lg:px-12 bg-brand-ivory min-h-screen">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 lg:gap-24">
+    // CHANGED: px-6 lg:px-12 + max-w-7xl -> site-container (same universal container as the homepage, so this page lines up with the navbar at every size instead of freezing at 1280px). pt-32 -> pt-28, pb-24 -> pb-16. */}
+    <div className="pt-28 pb-16 bg-brand-ivory min-h-screen">
+      <div className="site-container flex flex-col md:flex-row items-center gap-12 lg:gap-16">
         
         {/* Form Section */}
         <div className="w-full md:w-1/2">
@@ -61,7 +62,8 @@ export default function CatalogPage() {
 
         {/* Image Section */}
         <div className="w-full md:w-1/2">
-          <div className="relative aspect-[3/4] w-full max-w-md mx-auto overflow-hidden bg-brand-beige shadow-xl">
+          {/* CHANGED: max-w-md (fixed 448px) -> max-w-[min(100%,26vw)] with a sensible floor, so the cover scales with the screen like everything else instead of staying 448px on a 32" display */}
+          <div className="relative aspect-[3/4] w-full max-w-[max(280px,min(100%,26vw))] mx-auto overflow-hidden bg-brand-beige shadow-xl">
             <Image 
               src="/products/IMG-20260818-WA0010.jpg"
               alt="Houseofkarvi Catalog Cover"

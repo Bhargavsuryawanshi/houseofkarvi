@@ -34,7 +34,7 @@ export function Hero() {
           >
             <Image 
               src={heroImages[currentImage]}
-              alt="Minimalist luxury living room"
+              alt="House of Karvi - Architectural Living"
               fill
               className="object-cover object-center"
               priority
@@ -44,7 +44,7 @@ export function Hero() {
           </motion.div>
         </AnimatePresence>
         {/* Subtle gradient to ensure navbar is visible at the top */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/20 pointer-events-none"></div>
       </div>
 
     </section>

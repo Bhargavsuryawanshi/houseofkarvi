@@ -17,8 +17,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  
-  // Is the current page the home page? (Home page has dark background at the top)
+
   const isHome = pathname === '/';
 
   useEffect(() => {
@@ -31,11 +30,10 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Determine text and background colors based on scroll state and current page
-  const navBackground = isScrolled 
-    ? 'bg-brand-ivory/90 backdrop-blur-md border-b border-brand-charcoal/10 shadow-sm py-4' 
+  const navBackground = isScrolled
+    ? 'bg-brand-ivory/90 backdrop-blur-md border-b border-brand-charcoal/10 shadow-sm py-4'
     : 'bg-transparent py-6';
-    
+
   const textColor = (isScrolled || !isHome) ? 'text-brand-charcoal' : 'text-white';
   const logoSrc = (isScrolled || !isHome) ? '/HOK Logo_ Gray font.png' : '/HOK Logo_ White font.png';
 
@@ -44,16 +42,24 @@ export function Navbar() {
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${navBackground}`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
-          {/* Actions (Left side for balance, empty on desktop to push logo to center if desired, but we'll keep logo left) */}
-          
+        {/*
+          CHANGED: max-w-7xl mx-auto px-6 lg:px-12  ->  site-container
+          Reason (point 2): max-w-7xl froze the navbar at 1280px while
+          Hero.tsx stayed full-bleed - that mismatch is the "centred grid
+          with empty sides while the hero fills the window" problem.
+          site-container has no pixel cap; its side margin is 5.5vw, the
+          same proportion the design preview uses, so the navbar lines up
+          with the content below it at every screen size.
+        */}
+        <div className="site-container flex items-center justify-between">
+
           {/* Logo */}
           <Link href="/" className="relative z-50 flex items-center group">
             <div className="relative h-10 sm:h-12 w-48 sm:w-56 overflow-visible">
-               <Image 
-                 src={logoSrc} 
-                 alt="Houseofkarvi" 
-                 fill 
+               <Image
+                 src={logoSrc}
+                 alt="Houseofkarvi"
+                 fill
                  className="object-contain object-left transition-all duration-500 origin-left scale-125 sm:scale-150"
                  priority
               />
@@ -76,7 +82,7 @@ export function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <div className="flex md:hidden items-center relative z-50">
-            <button 
+            <button
               className={`${textColor} hover:text-brand-gold transition-colors`}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >

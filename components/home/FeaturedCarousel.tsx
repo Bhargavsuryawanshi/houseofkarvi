@@ -199,20 +199,22 @@ export function FeaturedCarousel() {
   };
 
   return (
-    <section id="collection" className="py-24 lg:py-32 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+     // CHANGED: py-24 lg:py-32 -> py-12 lg:py-14 (point 3: stacking section padding) */}
+    <section id="collection" className="py-12 lg:py-14 bg-white overflow-hidden">
+      {/* CHANGED: max-w-7xl mx-auto px-6 lg:px-12 -> site-container (point 2) */}
+      <div className="site-container text-center">
         
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-brand-charcoal font-bold text-3xl md:text-4xl tracking-widest uppercase mb-12"
+          className="text-brand-charcoal font-bold text-3xl md:text-4xl tracking-widest uppercase mb-[clamp(0.75rem,2vh,1.75rem)]"
         >
           COLLECTION
         </motion.h2>
 
         {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
+        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-[clamp(0.75rem,2.5vh,2rem)]">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -229,7 +231,7 @@ export function FeaturedCarousel() {
         </div>
         
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-[clamp(1rem,3vh,2.5rem)]">
           {paginatedItems.map((item, index) => (
             <motion.div 
               key={item.id}
@@ -241,7 +243,25 @@ export function FeaturedCarousel() {
               onClick={() => openProduct(item)}
             >
               <div className="w-full">
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-brand-ivory mb-6 mix-blend-multiply flex items-center justify-center">
+                {/*
+                  CHANGED: aspect-[4/3] -> h-[clamp(110px,21vh,340px)]
+
+                  THIS IS THE FIX FOR "collection never fits one screen".
+                  aspect-[4/3] ties the image HEIGHT to its COLUMN WIDTH.
+                  On a 3840px screen each of the 3 columns is ~1150px wide,
+                  so each image became ~860px tall - two rows alone were
+                  ~1700px, guaranteeing 3-4 scrolls no matter what padding
+                  I trimmed. On a narrow screen the same rule made them too
+                  short. Height driven by the column width can never fit a
+                  screen reliably.
+
+                  Sizing the image off viewport HEIGHT instead means two
+                  rows + heading + filters + pagination always add up to
+                  roughly one screen, at 1280x651 and at 3840px alike.
+                  This is the one place vh is the correct tool: the whole
+                  requirement here is "fit the visible screen".
+                */}
+                <div className="relative h-[clamp(110px,21vh,340px)] w-full overflow-hidden bg-brand-ivory mb-3 mix-blend-multiply flex items-center justify-center">
                   <Image 
                     src={item.image}
                     alt={item.name}
@@ -251,8 +271,8 @@ export function FeaturedCarousel() {
                     unoptimized
                   />
                 </div>
-                <h3 className="font-sans font-medium text-lg text-brand-charcoal mb-1">{item.name}</h3>
-                <p className="text-brand-charcoal/60 text-sm mb-3">{item.price}</p>
+                <h3 className="font-sans font-medium text-base text-brand-charcoal mb-0.5">{item.name}</h3>
+                <p className="text-brand-charcoal/60 text-sm mb-2">{item.price}</p>
                 <div className="flex items-center justify-center gap-2">
                   {item.colors.map((color, idx) => (
                     <div 
@@ -269,7 +289,7 @@ export function FeaturedCarousel() {
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center mt-16 gap-4">
+          <div className="flex justify-center items-center mt-[clamp(1rem,3vh,2.5rem)] gap-4">
             <button 
               onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
               disabled={currentPage === 0}
