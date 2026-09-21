@@ -272,7 +272,7 @@ export function FeaturedCarousel() {
                   />
                 </div>
                 <h3 className="font-sans font-medium text-base text-brand-charcoal mb-0.5">{item.name}</h3>
-                <p className="text-brand-charcoal/60 text-sm mb-2">{item.price}</p>
+                {/* <p className="text-brand-charcoal/60 text-sm mb-2">{item.price}</p> */}
                 <div className="flex items-center justify-center gap-2">
                   {item.colors.map((color, idx) => (
                     <div 
