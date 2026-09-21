@@ -71,8 +71,19 @@ export function Navbar() {
             {navLinks.map((link) => (
               <Link
                 key={link.name}
-                href={link.href}
-                className={`text-xs font-medium tracking-[0.15em] uppercase transition-colors relative group ${textColor} hover:text-brand-gold`}
+                href={link.href} 
+                onClick={(e) => {
+                  if (link.href.startsWith('/#') && pathname === '/') {
+                    e.preventDefault();
+                    const id = link.href.split('#')[1];
+                    const element = document.getElementById(id);
+                    if (element) {
+                      const y = element.getBoundingClientRect().top + window.scrollY - 80;
+                      window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
+                  }
+                }}
+ className={`text-xs font-medium tracking-[0.15em] uppercase transition-colors relative group ${textColor} hover:text-brand-gold`}
               >
                 {link.name}
                 <span className="absolute -bottom-1.5 left-0 w-0 h-[1px] bg-brand-gold transition-all duration-300 group-hover:w-full"></span>
@@ -112,7 +123,20 @@ export function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
+                    
+                    onClick={(e) => {
+                      if (link.href.startsWith('/#') && pathname === '/') {
+                        e.preventDefault();
+                        const id = link.href.split('#')[1];
+                        const element = document.getElementById(id);
+                        if (element) {
+                          const y = element.getBoundingClientRect().top + window.scrollY - 80;
+                          window.scrollTo({ top: y, behavior: 'smooth' });
+                        }
+                      }
+                      setMobileMenuOpen(false);
+                    }}
+
                     className="text-3xl font-serif text-brand-charcoal hover:text-brand-gold transition-colors"
                   >
                     {link.name}

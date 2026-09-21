@@ -327,6 +327,7 @@ export function FeaturedCarousel() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            data-lenis-prevent="true"
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-12 bg-black/40 backdrop-blur-sm"
             onClick={closeProduct}
           >
@@ -334,18 +335,19 @@ export function FeaturedCarousel() {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 20, opacity: 0 }}
+              data-lenis-prevent="true"
               className="bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row shadow-2xl relative"
               onClick={(e) => e.stopPropagation()}
             >
               
               {/* Image Gallery */}
-              <div className="w-full md:w-1/2 relative bg-[#e5e5e5] min-h-[40vh] md:min-h-full flex items-center justify-center p-8">
+              <div className="w-full md:w-1/2 relative min-h-[40vh] md:min-h-full flex items-center justify-center overflow-hidden bg-white">
                 <div className="relative w-full h-full min-h-[400px]">
                   <Image 
                     src={selectedProduct.images[currentImageIndex]}
                     alt={selectedProduct.name}
                     fill
-                    className="object-contain mix-blend-multiply"
+                    className="object-cover"
                     referrerPolicy="no-referrer"
                     unoptimized
                   />
