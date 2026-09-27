@@ -35,6 +35,9 @@ export function Story() {
                   className="object-cover"
                   referrerPolicy="no-referrer"
                   unoptimized
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
                 />
               </motion.div>
               <p className="text-sm tracking-wider uppercase font-medium text-left text-brand-charcoal/60">SHELL</p>
@@ -55,6 +58,9 @@ export function Story() {
                   className="object-cover"
                   referrerPolicy="no-referrer"
                   unoptimized
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
                 />
               </motion.div>
               <p className="text-sm tracking-wider uppercase font-medium text-left text-brand-charcoal/60">SCRAWNY</p>
@@ -76,6 +82,9 @@ export function Story() {
                 className="object-cover"
                 referrerPolicy="no-referrer"
                 unoptimized
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
               />
             </motion.div>
             <p className="text-sm tracking-wider uppercase font-medium text-left text-brand-charcoal/60">BANDHU</p>
@@ -128,6 +137,9 @@ export function Story() {
                   className="object-cover"
                   referrerPolicy="no-referrer"
                   unoptimized
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
                 />
               </motion.div>
               <p className="text-sm tracking-wider uppercase font-medium text-left text-brand-charcoal/60">KASHI</p>
@@ -148,6 +160,9 @@ export function Story() {
                   className="object-cover"
                   referrerPolicy="no-referrer"
                   unoptimized
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
                 />
               </motion.div>
               <p className="text-sm tracking-wider uppercase font-medium text-left text-brand-charcoal/60">OVATE</p>

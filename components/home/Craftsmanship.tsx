@@ -69,6 +69,9 @@ export function Craftsmanship() {
                 className="object-cover"
                 referrerPolicy="no-referrer"
                 unoptimized
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
               />
             </div>
             <div className="w-full text-center lg:text-left">

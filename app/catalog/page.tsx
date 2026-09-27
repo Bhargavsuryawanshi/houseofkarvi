@@ -70,6 +70,9 @@ export default function CatalogPage() {
               fill
               className="object-cover"
               referrerPolicy="no-referrer"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+              onDragStart={(e) => e.preventDefault()}
             />
             <div className="absolute inset-0 border border-brand-charcoal/10 m-4"></div>
           </div>

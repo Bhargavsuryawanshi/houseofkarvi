@@ -269,6 +269,9 @@ export function FeaturedCarousel() {
                     className="object-contain transition-transform duration-700 group-hover:scale-105 p-4"
                     referrerPolicy="no-referrer"
                     unoptimized
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                    onDragStart={(e) => e.preventDefault()}
                   />
                 </div>
                 <h3 className="font-sans font-medium text-base text-brand-charcoal mb-0.5">{item.name}</h3>
@@ -350,6 +353,9 @@ export function FeaturedCarousel() {
                     className="object-cover"
                     referrerPolicy="no-referrer"
                     unoptimized
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                    onDragStart={(e) => e.preventDefault()}
                   />
                 </div>
                 

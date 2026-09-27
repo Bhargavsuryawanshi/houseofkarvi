@@ -40,6 +40,9 @@ export function Hero() {
               priority
               referrerPolicy="no-referrer"
               unoptimized
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+              onDragStart={(e) => e.preventDefault()}
             />
           </motion.div>
         </AnimatePresence>

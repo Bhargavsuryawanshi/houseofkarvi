@@ -62,6 +62,10 @@ export function Navbar() {
                  fill
                  className="object-contain object-left transition-all duration-500 origin-left scale-125 sm:scale-150"
                  priority
+                 referrerPolicy="no-referrer"
+                 draggable={false}
+                 onContextMenu={(e) => e.preventDefault()}
+                 onDragStart={(e) => e.preventDefault()}
               />
             </div>
           </Link>
