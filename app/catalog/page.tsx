@@ -65,7 +65,7 @@ export default function CatalogPage() {
           {/* CHANGED: max-w-md (fixed 448px) -> max-w-[min(100%,26vw)] with a sensible floor, so the cover scales with the screen like everything else instead of staying 448px on a 32" display */}
           <div className="relative aspect-[3/4] w-full max-w-[max(280px,min(100%,26vw))] mx-auto overflow-hidden bg-brand-beige shadow-xl">
             <Image 
-              src="/products/IMG-20260818-WA0010.jpg"
+              src="/products/Catalougue_image.png"
               alt="Houseofkarvi Catalog Cover"
               fill
               className="object-cover"

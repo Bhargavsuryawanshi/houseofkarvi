@@ -57,7 +57,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="uppercase tracking-widest text-brand-gold font-medium mb-1.5" style={{ fontSize: 'var(--fs-eyebrow)' }}>Direct Inquiries</h3>
                 <p className="text-base font-medium text-brand-charcoal">
-                  <a href="tel:+919879866629" className="hover:text-brand-gold transition-colors">+91 98798 66629</a>
+                  <a href="tel:+919327720914" className="hover:text-brand-gold transition-colors">+91 93277 20914</a>
                 </p>
                 <p className="text-base font-light text-brand-charcoal/80 mt-1">
                   <a href="mailto:houseofkarvi.dw@gmail.com" className="hover:text-brand-gold transition-colors">houseofkarvi.dw@gmail.com</a>
@@ -72,7 +72,7 @@ export default function ContactPage() {
 
               <div className="pt-2">
                 <a 
-                  href="https://wa.me/919879866629" 
+                  href="https://wa.me/919327720914?text=Hello%20House%20of%20Karvi%2C%20I%20would%20like%20to%20know%20more." 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#25D366] text-white text-xs uppercase tracking-wider font-medium hover:bg-[#20ba5a] transition-colors shadow-xs"
