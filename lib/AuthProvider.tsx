@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       if (currentUser && currentUser.emailVerified) {
         // Check if user is the bootstrapped admin or in the admins collection
-        if (currentUser.email === 'bhargavsuryawanshi99@gmail.com') {
+        if (currentUser.email === 'houseofkarvi.dw@gmail.com') {
           setIsAdmin(true);
         } else {
           try {

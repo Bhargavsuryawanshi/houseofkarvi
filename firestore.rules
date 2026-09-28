@@ -14,7 +14,7 @@ service cloud.firestore {
     // Admin check: check if the user is in the admins collection OR if they are the bootstrapped admin
     function isAdmin() { 
       return isSignedIn() && isEmailVerified() && (
-        request.auth.token.email == 'bhargavsuryawanshi99@gmail.com' || 
+        request.auth.token.email == 'houseofkarvi.dw@gmail.com' || 
         exists(/databases/$(database)/documents/admins/$(request.auth.uid))
       );
     }
