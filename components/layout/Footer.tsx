@@ -1,7 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Hide footer completely on PDF preview screen
+  if (pathname === '/catalog/preview') {
+    return null;
+  }
+
   return (
     <footer className="bg-[#333232] text-white/90 pt-12 pb-12 mt-12">
       {/* CHANGED: max-w-7xl mx-auto -> site-container (point 2), mt-20 -> mt-12 (point 3) */}

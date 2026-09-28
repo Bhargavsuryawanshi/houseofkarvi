@@ -16,34 +16,26 @@
       },
       "required": ["email", "createdAt"]
     },
-    "Product": {
-      "title": "Product",
-      "description": "A furniture product in the catalog",
+    "Category": {
+      "title": "Category",
+      "description": "A collection category for products",
       "type": "object",
       "properties": {
-        "title": {
+        "name": {
           "type": "string",
           "minLength": 1,
           "maxLength": 100
         },
-        "description": {
+        "slug": {
           "type": "string",
-          "minLength": 0,
-          "maxLength": 1000
+          "minLength": 1,
+          "maxLength": 100
         },
-        "category": {
-          "type": "string",
-          "enum": ["beds", "chairs", "sofas", "tables", "wardrobes", "other"]
-        },
-        "price": {
+        "order": {
           "type": "number"
         },
-        "inStock": {
+        "visible": {
           "type": "boolean"
-        },
-        "imageUrl": {
-          "type": "string",
-          "maxLength": 500
         },
         "createdAt": {
           "type": "string"
@@ -52,27 +44,91 @@
           "type": "string"
         }
       },
-      "required": ["title", "description", "category", "price", "inStock", "imageUrl", "createdAt", "updatedAt"]
+      "required": ["name", "order", "visible", "createdAt", "updatedAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "A furniture product in the collections & catalog",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "price": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "image": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "images": {
+          "type": "array"
+        },
+        "material": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 3000
+        },
+        "size": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "details": {
+          "type": "string",
+          "maxLength": 1500
+        },
+        "colors": {
+          "type": "array"
+        },
+        "order": {
+          "type": "number"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "inStock": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "image", "description", "size", "details", "createdAt", "updatedAt"]
     },
     "Inquiry": {
       "title": "Inquiry",
-      "description": "A customer inquiry from the contact form",
+      "description": "A customer inquiry from the Reach Us contact form",
       "type": "object",
       "properties": {
         "customerName": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 100
+          "maxLength": 150
         },
         "customerEmail": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 100
+          "maxLength": 150
         },
         "message": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 2000
+          "maxLength": 3000
         },
         "status": {
           "type": "string",
@@ -86,20 +142,84 @@
         }
       },
       "required": ["customerName", "customerEmail", "message", "status", "createdAt", "updatedAt"]
+    },
+    "CatalogRequest": {
+      "title": "CatalogRequest",
+      "description": "A customer submission requesting the Exclusive Catalogue",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "email": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "company": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "status": {
+          "type": "string",
+          "enum": ["new", "downloaded", "contacted"]
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": ["fullName", "email", "status", "createdAt"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Global website settings such as current catalogue PDF",
+      "type": "object",
+      "properties": {
+        "pdfUrl": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "pdfName": {
+          "type": "string",
+          "maxLength": 255
+        },
+        "fileSize": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["pdfUrl", "updatedAt"]
     }
   },
   "firestore": {
     "admins/{userId}": {
       "schema": { "$ref": "#/entities/Admin" },
-      "description": "Stores admin user records"
+      "description": "Stores admin user accounts"
+    },
+    "categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Stores collections categories"
     },
     "products/{productId}": {
       "schema": { "$ref": "#/entities/Product" },
-      "description": "Stores catalog products"
+      "description": "Stores dynamic collection and catalog products"
     },
     "inquiries/{inquiryId}": {
       "schema": { "$ref": "#/entities/Inquiry" },
-      "description": "Stores customer inquiries"
+      "description": "Stores customer inquiries from Reach Us"
+    },
+    "catalog_requests/{requestId}": {
+      "schema": { "$ref": "#/entities/CatalogRequest" },
+      "description": "Stores requests for the exclusive catalogue"
+    },
+    "site_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/SiteSettings" },
+      "description": "Stores site configurations such as catalogue PDF details"
     }
   }
 }

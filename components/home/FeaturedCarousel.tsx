@@ -3,134 +3,36 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, PackageOpen } from 'lucide-react';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
-const categories = ['All', 'Sofas', 'Armchairs', 'Complementary Furniture', 'Table and Chairs', 'Beds', 'Sofa Beds', 'Outdoor'];
-
-const collectionItems = [
-  { 
-    id: 1, 
-    name: 'Luvon', 
-    price: '€3.100', 
-    category: 'Sofas', 
-    image: '/products/IMG-20260818-WA0001.jpg', 
-    images: ['/products/IMG-20260818-WA0001.jpg', '/products/IMG-20260818-WA0000.jpg'],
-    material: 'Premium Fabric & Solid Wood',
-    description: 'The Luvon sofa brings elegance and comfort to any living space. Designed with meticulous attention to detail, it features a durable solid wood frame and plush seating.',
-    size: '2400 W x 900 D x 750 H',
-    details: 'Upholstery - Premium Linen Blend\nFrame - Solid Oak wood',
-    colors: ['#5C4033', '#C19B6C'] 
-  },
-  { 
-    id: 2, 
-    name: 'Daily', 
-    price: '€1.200', 
-    category: 'Complementary Furniture', 
-    image: '/products/IMG-20260818-WA0008.jpg', 
-    images: ['/products/IMG-20260818-WA0008.jpg', '/products/IMG-20260818-WA0009.jpg'],
-    material: 'Solid Wood & Glass',
-    description: 'Daily is a versatile piece designed to complement modern interiors. With an emphasis on geometric precision, it provides both functional surface area and a bold visual statement.',
-    size: '1200 W x 600 D x 400 H',
-    details: 'Top - Tempered Glass\nBase - Solid Walnut',
-    colors: ['#333232', '#FAF9F6'] 
-  },
-  { 
-    id: 3, 
-    name: 'Alta', 
-    price: '€2.800', 
-    category: 'Sofas', 
-    image: '/products/IMG-20260818-WA0010.jpg', 
-    images: ['/products/IMG-20260818-WA0010.jpg', '/products/IMG-20260818-WA0011.jpg'],
-    material: 'Linen Blend & Steel Legs',
-    description: 'Alta is defined by its sweeping curves and inviting deep seating. It balances a sculptural silhouette with the practical comfort required for a lively modern home.',
-    size: '2200 W x 950 D x 780 H',
-    details: 'Upholstery - Textured Bouclé\nLegs - Matte Black Steel',
-    colors: ['#F3F0EA', '#5C4033'] 
-  },
-  { 
-    id: 4, 
-    name: 'Pasific', 
-    price: '€3.400', 
-    category: 'Beds', 
-    image: '/products/IMG-20260818-WA0012.jpg', 
-    images: ['/products/IMG-20260818-WA0012.jpg'],
-    material: 'Upholstered Fabric & Oak',
-    description: 'The Pasific bed frame offers a tranquil, low-profile design. The softly upholstered headboard provides excellent back support for reading, paired seamlessly with a sturdy oak base.',
-    size: '1800 W x 2100 D x 1100 H',
-    details: 'Headboard - Soft Linen\nFrame - Natural Oak finish',
-    colors: ['#FAF9F6'] 
-  },
-  { 
-    id: 5, 
-    name: 'Skin', 
-    price: '€3.900', 
-    category: 'Sofas', 
-    image: '/products/IMG-20260818-WA0000.jpg', 
-    images: ['/products/IMG-20260818-WA0000.jpg', '/products/IMG-20260818-WA0001.jpg'],
-    material: 'Top-Grain Leather',
-    description: 'Skin is a masterclass in leather craftsmanship. The natural top-grain leather develops a beautiful patina over time, while the minimalist structure ensures it remains timeless.',
-    size: '2600 W x 1000 D x 720 H',
-    details: 'Upholstery - Top-grain Aniline Leather\nCushions - High-density foam with down wrap',
-    colors: ['#333232', '#C19B6C'] 
-  },
-  { 
-    id: 6, 
-    name: 'Papilo', 
-    price: '€1.600', 
-    category: 'Armchairs', 
-    image: '/products/IMG-20260818-WA0002.jpg', 
-    images: ['/products/IMG-20260818-WA0002.jpg', '/products/IMG-20260818-WA0003.jpg'],
-    material: 'Bouclé Fabric',
-    description: 'The Papilo armchair is a cozy retreat. Covered entirely in textured bouclé fabric, it offers a soft, enveloping embrace perfect for long reading sessions or casual conversation.',
-    size: '850 W x 850 D x 750 H',
-    details: 'Upholstery - Premium Bouclé\nFrame - Hidden wooden structure',
-    colors: ['#FAF9F6'] 
-  },
-  { 
-    id: 7, 
-    name: 'Taso Side Table', 
-    price: '€1.200', 
-    category: 'Table and Chairs', 
-    image: '/products/IMG-20260818-WA0004.jpg', 
-    images: ['/products/IMG-20260818-WA0004.jpg', '/products/IMG-20260818-WA0005.jpg'],
-    material: 'Resin & Suede',
-    description: 'Taso side tables explore the relationship between softness and stability through material contrast. The resin top forms a smooth, composed surface, grounding the object visually and structurally. In contrast, the fabric-clad legs which are constructed in cross planes introduce tactility and warmth, visually challenging the expectation of hardness in load-bearing elements.\n\nThe form remains restrained and architectural, allowing material expression and proportion to take precedence. Familiar in use yet unconventional in construction, the tables invite both touch and contemplation.\n\nTaso is a part of a series of material experiments that reimagine furniture through softness, surface, and form.',
-    size: '400 Dia x 550 H\n500 Dia x 450 H',
-    details: 'Table Top - In special finish - resin\nLegs - Cladded in fabric with suede borders',
-    colors: ['#D2B48C', '#333232'] 
-  },
-  { 
-    id: 8, 
-    name: 'Onda', 
-    price: '€2.400', 
-    category: 'Armchairs', 
-    image: '/products/IMG-20260818-WA0006.jpg', 
-    images: ['/products/IMG-20260818-WA0006.jpg', '/products/IMG-20260818-WA0007.jpg'],
-    material: 'Velvet & Brass',
-    description: 'Onda brings a sense of fluidity and movement to stationary seating. Its curved backrest embraces the sitter, while the plush velvet upholstery offers unparalleled comfort. Accentuated with subtle brass detailing, it is a statement piece for any contemporary setting.',
-    size: '800 W x 750 D x 820 H',
-    details: 'Upholstery - Premium Velvet\nLegs - Brushed Brass finish',
-    colors: ['#4A5D23', '#C19B6C'] 
-  },
-  { 
-    id: 9, 
-    name: 'Vela', 
-    price: '€4.500', 
-    category: 'Outdoor', 
-    image: '/products/IMG-20260818-WA0009.jpg', 
-    images: ['/products/IMG-20260818-WA0009.jpg', '/products/IMG-20260818-WA0011.jpg'],
-    material: 'Teak & Performance Fabric',
-    description: 'Designed for the elements, Vela combines the natural durability of teak with high-performance weather-resistant fabrics. Its low profile and wide seating area encourage relaxation and seamless indoor-outdoor living.',
-    size: '2200 W x 950 D x 650 H',
-    details: 'Frame - Grade A Teak wood\nCushions - Weatherproof performance fabric',
-    colors: ['#E6E2D6', '#8B5A2B'] 
-  },
-];
+export interface CarouselProduct {
+  id: string | number;
+  name: string;
+  price: string;
+  category: string;
+  image: string;
+  images: string[];
+  material?: string;
+  description: string;
+  size?: string;
+  details?: string;
+  colors: string[];
+  order?: number;
+  visible?: boolean;
+}
 
 export function FeaturedCarousel() {
+  const [categories, setCategories] = useState<string[]>(['All']);
+  const [products, setProducts] = useState<CarouselProduct[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState(0);
+
+  // Modal state
+  const [selectedProduct, setSelectedProduct] = useState<CarouselProduct | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const prevPageRef = useRef(currentPage);
   useLayoutEffect(() => {
@@ -144,15 +46,69 @@ export function FeaturedCarousel() {
     }
   }, [currentPage]);
 
-  
-  // Modal state
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // Subscribe to real-time Categories from Firestore CMS
+  useEffect(() => {
+    const q = query(collection(db, 'categories'), orderBy('order', 'asc'));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const visibleCats: string[] = [];
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          if (data.visible !== false && data.name) {
+            visibleCats.push(data.name);
+          }
+        });
+        setCategories(['All', ...visibleCats]);
+      },
+      (err) => console.error('Error loading categories', err)
+    );
+    return () => unsubscribe();
+  }, []);
+
+  // Subscribe to real-time Products from Firestore CMS
+  useEffect(() => {
+    const q = query(collection(db, 'products'), orderBy('order', 'asc'));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const loaded: CarouselProduct[] = [];
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          if (data.visible !== false) {
+            const mainImg = data.image || data.imageUrl || '';
+            const gallery = Array.isArray(data.images) && data.images.length > 0 ? data.images : (mainImg ? [mainImg] : []);
+            loaded.push({
+              id: docSnap.id,
+              name: data.name || data.title || '',
+              price: typeof data.price === 'number' ? `€${data.price}` : (data.price || ''),
+              category: data.category || '',
+              image: mainImg,
+              images: gallery,
+              material: data.material || '',
+              description: data.description || '',
+              size: data.size || '',
+              details: data.details || '',
+              colors: Array.isArray(data.colors) ? data.colors : [],
+              order: data.order ?? 1,
+              visible: data.visible !== false,
+            });
+          }
+        });
+        setProducts(loaded);
+        setLoading(false);
+      },
+      (err) => {
+        console.error('Error loading products:', err);
+        setLoading(false);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
 
   const filteredItems = activeCategory === 'All' 
-    ? collectionItems 
-    : collectionItems.filter(item => item.category === activeCategory);
+    ? products 
+    : products.filter(item => item.category === activeCategory);
 
   const itemsPerPage = 6;
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
@@ -169,14 +125,11 @@ export function FeaturedCarousel() {
     } else {
       document.body.style.overflow = '';
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [selectedProduct]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const openProduct = (item: any) => {
-    setSelectedProduct(item);
+  const openProduct = (product: CarouselProduct) => {
+    setSelectedProduct(product);
     setCurrentImageIndex(0);
   };
 
@@ -186,22 +139,20 @@ export function FeaturedCarousel() {
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (selectedProduct) {
-      setCurrentImageIndex((prev) => (prev + 1) % selectedProduct.images.length);
+    if (selectedProduct && selectedProduct.images.length > 0) {
+      setCurrentImageIndex((prev) => (prev === selectedProduct.images.length - 1 ? 0 : prev + 1));
     }
   };
 
   const prevImage = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (selectedProduct) {
+    if (selectedProduct && selectedProduct.images.length > 0) {
       setCurrentImageIndex((prev) => (prev === 0 ? selectedProduct.images.length - 1 : prev - 1));
     }
   };
 
   return (
-     // CHANGED: py-24 lg:py-32 -> py-12 lg:py-14 (point 3: stacking section padding) */}
     <section id="collection" className="py-12 lg:py-14 bg-white overflow-hidden">
-      {/* CHANGED: max-w-7xl mx-auto px-6 lg:px-12 -> site-container (point 2) */}
       <div className="site-container text-center">
         
         <motion.h2 
@@ -213,82 +164,86 @@ export function FeaturedCarousel() {
           COLLECTION
         </motion.h2>
 
-        {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-[clamp(0.75rem,2.5vh,2rem)]">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => handleCategoryChange(cat)}
-              className={`text-xs md:text-sm transition-all duration-300 ${
-                activeCategory === cat 
-                  ? 'bg-brand-charcoal text-white px-4 py-1.5 rounded-full' 
-                  : 'text-brand-charcoal/60 hover:text-brand-charcoal'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        {/* Categories Tabs */}
+        {categories.length > 1 && (
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-[clamp(0.75rem,2.5vh,2rem)]">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => handleCategoryChange(cat)}
+                className={`text-xs md:text-sm transition-all duration-300 ${
+                  activeCategory === cat 
+                    ? 'bg-brand-charcoal text-white px-4 py-1.5 rounded-full' 
+                    : 'text-brand-charcoal/60 hover:text-brand-charcoal'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Loading State */}
+        {loading && (
+          <div className="py-16 text-center text-brand-charcoal/50 text-sm animate-pulse">
+            Loading collection...
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && filteredItems.length === 0 && (
+          <div className="py-16 px-4 max-w-md mx-auto text-center border border-dashed border-brand-charcoal/20 rounded-xs my-6 bg-brand-beige/10">
+            <PackageOpen className="w-10 h-10 text-brand-charcoal/30 mx-auto mb-3" />
+            <h3 className="font-serif text-lg text-brand-charcoal mb-1">No Collection Items</h3>
+            <p className="text-xs text-brand-charcoal/60 font-light leading-relaxed">
+              {activeCategory === 'All' 
+                ? 'All products have been removed from the CMS. New items added via the Admin Dashboard will appear here.'
+                : `No products currently found under "${activeCategory}".`}
+            </p>
+          </div>
+        )}
         
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-[clamp(1rem,3vh,2.5rem)]">
-          {paginatedItems.map((item, index) => (
-            <motion.div 
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group flex flex-col items-center text-center cursor-pointer"
-              onClick={() => openProduct(item)}
-            >
-              <div className="w-full">
-                {/*
-                  CHANGED: aspect-[4/3] -> h-[clamp(110px,21vh,340px)]
-
-                  THIS IS THE FIX FOR "collection never fits one screen".
-                  aspect-[4/3] ties the image HEIGHT to its COLUMN WIDTH.
-                  On a 3840px screen each of the 3 columns is ~1150px wide,
-                  so each image became ~860px tall - two rows alone were
-                  ~1700px, guaranteeing 3-4 scrolls no matter what padding
-                  I trimmed. On a narrow screen the same rule made them too
-                  short. Height driven by the column width can never fit a
-                  screen reliably.
-
-                  Sizing the image off viewport HEIGHT instead means two
-                  rows + heading + filters + pagination always add up to
-                  roughly one screen, at 1280x651 and at 3840px alike.
-                  This is the one place vh is the correct tool: the whole
-                  requirement here is "fit the visible screen".
-                */}
-                <div className="relative h-[clamp(110px,21vh,340px)] w-full overflow-hidden bg-brand-ivory mb-3 mix-blend-multiply flex items-center justify-center">
-                  <Image 
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-contain transition-transform duration-700 group-hover:scale-105 p-4"
-                    referrerPolicy="no-referrer"
-                    unoptimized
-                    draggable={false}
-                    onContextMenu={(e) => e.preventDefault()}
-                    onDragStart={(e) => e.preventDefault()}
-                  />
+        {/* Product Grid */}
+        {!loading && paginatedItems.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-[clamp(1rem,3vh,2.5rem)]">
+            {paginatedItems.map((item, index) => (
+              <motion.div 
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="group flex flex-col items-center text-center cursor-pointer"
+                onClick={() => openProduct(item)}
+              >
+                <div className="w-full">
+                  <div className="relative h-[clamp(110px,21vh,340px)] w-full overflow-hidden bg-brand-ivory mb-3 mix-blend-multiply flex items-center justify-center">
+                    {item.image ? (
+                      <Image 
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority={index < 3}
+                        loading={index < 3 ? 'eager' : 'lazy'}
+                        className="object-contain transition-transform duration-700 group-hover:scale-105 p-4"
+                        referrerPolicy="no-referrer"
+                        unoptimized
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        onDragStart={(e) => e.preventDefault()}
+                      />
+                    ) : (
+                      <div className="text-xs text-brand-charcoal/40">No photo</div>
+                    )}
+                  </div>
+                  <h3 className="font-sans font-medium text-base text-brand-charcoal mb-0.5">{item.name}</h3>
+                
                 </div>
-                <h3 className="font-sans font-medium text-base text-brand-charcoal mb-0.5">{item.name}</h3>
-                {/* <p className="text-brand-charcoal/60 text-sm mb-2">{item.price}</p> */}
-                <div className="flex items-center justify-center gap-2">
-                  {item.colors.map((color, idx) => (
-                    <div 
-                      key={idx} 
-                      className="w-3 h-3 rounded-full border border-brand-charcoal/20"
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
@@ -323,7 +278,7 @@ export function FeaturedCarousel() {
         )}
       </div>
 
-      {/* Product Modal */}
+      {/* Product Detail Modal (Restored to Old Design) */}
       <AnimatePresence>
         {selectedProduct && (
           <motion.div 
@@ -346,19 +301,26 @@ export function FeaturedCarousel() {
               {/* Image Gallery */}
               <div className="w-full md:w-1/2 relative min-h-[40vh] md:min-h-full flex items-center justify-center overflow-hidden bg-white">
                 <div className="relative w-full h-full min-h-[400px]">
-                  <Image 
-                    src={selectedProduct.images[currentImageIndex]}
-                    alt={selectedProduct.name}
-                    fill
-                    className="object-cover"
-                    referrerPolicy="no-referrer"
-                    unoptimized
-                    draggable={false}
-                    onContextMenu={(e) => e.preventDefault()}
-                    onDragStart={(e) => e.preventDefault()}
-                  />
+                  {selectedProduct.images.length > 0 ? (
+                    <Image 
+                      src={selectedProduct.images[currentImageIndex] || selectedProduct.image}
+                      alt={selectedProduct.name}
+                      fill
+                      className="object-cover"
+                      referrerPolicy="no-referrer"
+                      unoptimized
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                      onDragStart={(e) => e.preventDefault()}
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-xs text-brand-charcoal/40">
+                      No image available
+                    </div>
+                  )}
                 </div>
-                
+
+                {/* Restored Old Arrows + New Dots */}
                 {selectedProduct.images.length > 1 && (
                   <>
                     <button 
@@ -373,6 +335,18 @@ export function FeaturedCarousel() {
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>
+
+                    {/* New Dots */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-1.5">
+                      {selectedProduct.images.map((_, idx) => (
+                        <span 
+                          key={idx} 
+                          className={`block h-1.5 rounded-full transition-all ${
+                            idx === currentImageIndex ? 'w-6 bg-brand-charcoal' : 'w-1.5 bg-brand-charcoal/30'
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </>
                 )}
               </div>
@@ -391,13 +365,15 @@ export function FeaturedCarousel() {
                 <div className="flex-1">
                   <h2 className="font-sans font-bold text-3xl md:text-4xl text-brand-charcoal mb-6">{selectedProduct.name}</h2>
                   
-                  <div className="space-y-4 mb-8">
-                    {selectedProduct.description.split('\n\n').map((paragraph: string, idx: number) => (
-                      <p key={idx} className="text-sm text-brand-charcoal/70 leading-relaxed">
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
+                  {selectedProduct.description && (
+                    <div className="space-y-4 mb-8">
+                      {selectedProduct.description.split('\n\n').map((paragraph: string, idx: number) => (
+                        <p key={idx} className="text-sm text-brand-charcoal/70 leading-relaxed">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                  )}
                   
                   {selectedProduct.size && (
                     <div className="mb-6">

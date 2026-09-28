@@ -1,0 +1,40 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper function to verify admin authorization
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'houseofkarvi.dw@gmail.com' ||
+        request.auth.token.admin == true ||
+        firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Catalogue PDFs: Public read for customers who requested catalog, Admin write/delete
+    match /catalogue/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() &&
+                      request.resource.size < 50 * 1024 * 1024 && // Max 50MB
+                      request.resource.contentType.matches('application/pdf');
+      allow delete: if isAdmin();
+    }
+
+    // Product images: Public read for website visitors, Admin write/delete
+    match /products/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() &&
+                      request.resource.size < 15 * 1024 * 1024 && // Max 15MB
+                      request.resource.contentType.matches('image/.*');
+      allow delete: if isAdmin();
+    }
+
+    // Category images: Public read for website visitors, Admin write/delete
+    match /categories/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() &&
+                      request.resource.size < 10 * 1024 * 1024 && // Max 10MB
+                      request.resource.contentType.matches('image/.*');
+      allow delete: if isAdmin();
+    }
+  }
+}

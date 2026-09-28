@@ -14,22 +14,39 @@ export default function ContactPage() {
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg('');
+    const customerName = `${formData.firstName} ${formData.lastName}`.trim();
+    if (!customerName) {
+      setErrorMsg('Please enter your name.');
+      return;
+    }
+    if (!formData.email.trim()) {
+      setErrorMsg('Please enter a valid email address.');
+      return;
+    }
+    if (!formData.message.trim()) {
+      setErrorMsg('Please enter your message.');
+      return;
+    }
+
     setLoading(true);
     try {
-      const customerName = `${formData.firstName} ${formData.lastName}`.trim();
       await addDoc(collection(db, 'inquiries'), {
         customerName,
-        customerEmail: formData.email,
-        message: `[Interest: ${formData.interest}]\n\n${formData.message}`,
+        customerEmail: formData.email.trim().toLowerCase(),
+        message: `[Interest: ${formData.interest}]\n\n${formData.message.trim()}`,
         status: 'new',
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
       setSuccess(true);
     } catch (error) {
+      console.error('Inquiry submission error:', error);
+      setErrorMsg('We encountered an error saving your inquiry. Please try again.');
       handleFirestoreError(error, OperationType.CREATE, 'inquiries');
     } finally {
       setLoading(false);
@@ -107,6 +124,11 @@ export default function ContactPage() {
               </div>
             ) : (
               <form className="space-y-6" onSubmit={handleSubmit}>
+                {errorMsg && (
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-800 text-xs">
+                    {errorMsg}
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="firstName" className="uppercase tracking-widest text-brand-charcoal/70" style={{ fontSize: 'var(--fs-eyebrow)' }}>First Name</label>

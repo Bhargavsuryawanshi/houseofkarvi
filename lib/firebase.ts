@@ -4,6 +4,10 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import defaultConfig from '@/firebase-applet-config.json';
 
+// In standard Firebase projects created by users, the Firestore database is always '(default)'.
+// Only AI Studio preview environments use custom named database IDs like 'ai-studio-houseofkarvi-...'.
+const isCustomProject = !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || defaultConfig.apiKey,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || defaultConfig.authDomain,
@@ -11,7 +15,7 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || defaultConfig.storageBucket,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || defaultConfig.messagingSenderId,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || defaultConfig.appId,
-  firestoreDatabaseId: process.env.NEXT_PUBLIC_FIRESTORE_DATABASE_ID || defaultConfig.firestoreDatabaseId || '(default)',
+  firestoreDatabaseId: process.env.NEXT_PUBLIC_FIRESTORE_DATABASE_ID || (isCustomProject ? '(default)' : defaultConfig.firestoreDatabaseId),
 };
 
 export enum OperationType {
@@ -40,8 +44,16 @@ interface FirestoreErrorInfo {
   };
 }
 
+// Check if a custom non-default database is specified.
+// In Firebase SDK, the default database is always called '(default)'.
+// Passing 'default' without parentheses will look for a database literally named 'default' and fail!
+const isDefaultDb =
+  !firebaseConfig.firestoreDatabaseId ||
+  firebaseConfig.firestoreDatabaseId === '(default)' ||
+  firebaseConfig.firestoreDatabaseId === 'default';
+
 export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-export const db = firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== '(default)'
+export const db = !isDefaultDb
   ? getFirestore(app, firebaseConfig.firestoreDatabaseId)
   : getFirestore(app);
 export const auth = getAuth(app);

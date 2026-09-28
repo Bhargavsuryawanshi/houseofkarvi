@@ -18,8 +18,6 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const isHome = pathname === '/';
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -30,6 +28,12 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Completely hide Navbar on the PDF preview screen
+  if (pathname === '/catalog/preview') {
+    return null;
+  }
+
+  const isHome = pathname === '/';
   const navBackground = isScrolled
     ? 'bg-brand-ivory/90 backdrop-blur-md border-b border-brand-charcoal/10 shadow-sm py-4'
     : 'bg-transparent py-6';

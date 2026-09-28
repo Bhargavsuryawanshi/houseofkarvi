@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 import { Montserrat, Quicksand } from 'next/font/google';
 import './globals.css';
-import { SmoothScroll } from '@/components/layout/SmoothScroll';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 import { ClientProviders } from '@/components/ClientProviders';
+import { SiteShell } from '@/components/layout/SiteShell';
 
 const montserrat = Montserrat({ 
   subsets: ['latin'],
@@ -44,13 +42,9 @@ export default function RootLayout({
     <html lang="en" className={`${montserrat.variable} ${quicksand.variable}`}>
       <body className="antialiased font-sans bg-background text-foreground" suppressHydrationWarning>
         <ClientProviders>
-          <SmoothScroll>
-            <Navbar />
-            <main className="min-h-screen">
-              {children}
-            </main>
-            <Footer />
-          </SmoothScroll>
+          <SiteShell>
+            {children}
+          </SiteShell>
         </ClientProviders>
       </body>
     </html>
