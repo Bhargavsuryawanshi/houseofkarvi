@@ -16,11 +16,11 @@ export function Story() {
     */
     <section className="py-12 lg:py-14 bg-white overflow-hidden">
       {/* CHANGED: max-w-[1400px] mx-auto -> site-container (no pixel cap; see globals.css) */}
-      <div className="site-container flex flex-col xl:flex-row gap-12 lg:gap-16">
+      <div className="site-container flex flex-col gap-12 lg:flex-row lg:justify-between lg:gap-0">
 
         {/* Left Side */}
-        <div className="w-full xl:w-[45%] min-w-0 flex gap-6">
-          <div className="w-1/2 min-w-0 flex flex-col gap-8">
+        <div className="w-full min-w-0 flex gap-4 lg:w-[40%]">
+          <div className="min-w-0 flex-1 flex flex-col gap-8">
             <div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -65,7 +65,7 @@ export function Story() {
             </div>
           </div>
 
-          <div className="w-1/2 min-w-0 flex flex-col gap-8">
+          <div className="min-w-0 flex-1 flex flex-col gap-8">
             <div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -91,37 +91,28 @@ export function Story() {
         </div>
 
         {/* Right Side */}
-        <div className="w-full xl:w-[55%] min-w-0 flex flex-col justify-between">
+        <div className="w-full min-w-0 flex flex-col lg:w-[40%]">
 
-          <div className="mb-10 xl:mb-0 xl:mt-6">
-            {/*
-              Heading kept as a vw-based clamp rather than a rem size, so it
-              can be tuned to stay on ONE line (as in the design preview)
-              instead of wrapping to two and adding unplanned height.
-            */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-brand-charcoal text-[clamp(1.35rem,2.7vw,3.2rem)] leading-[1.15] tracking-[0.08em] lg:tracking-[0.12em] font-light mb-6 text-left uppercase lg:whitespace-nowrap"
-            >
-              Beyond the limits.
-            </motion.h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-brand-charcoal text-[clamp(1.35rem,2.7vw,3.2rem)] leading-[1.15] tracking-[0.08em] lg:tracking-[0.12em] font-light mb-6 text-left uppercase lg:mt-2 lg:mb-0 lg:whitespace-nowrap"
+          >
+            Beyond the limits.
+          </motion.h2>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="text-brand-charcoal/70 text-base leading-relaxed font-light max-w-[60ch] text-left"
-            >
-              Our designs draw attention from contemporary architecture, natural materials, and the rhythms of everyday life. Each collection is thoughtfully developed to balance aesthetics, comfort, and practicality, creating furniture that feels timeless in every setting.
-            </motion.p>
-          </div>
-
-          {/* CHANGED: mt-16 -> mt-8 (xl:mt-auto kept for the bottom-alignment behaviour) */}
-          <div className="flex gap-6 mt-8 xl:mt-auto">
-            <div className="w-1/2 min-w-0">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="text-brand-charcoal/70 text-base leading-relaxed font-light max-w-[60ch] text-left lg:mt-auto lg:mb-6"
+          >
+            Our designs draw attention from contemporary architecture, natural materials, and the rhythms of everyday life. Each collection is thoughtfully developed to balance aesthetics, comfort, and practicality, creating furniture that feels timeless in every setting.
+          </motion.p>
+          <div className="flex gap-4 mt-8 lg:mt-0">
+            <div className="min-w-0 flex-1">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -143,7 +134,7 @@ export function Story() {
               <p className="text-sm tracking-wider uppercase font-medium text-left text-brand-charcoal/60">KASHI</p>
             </div>
 
-            <div className="w-1/2 min-w-0">
+            <div className="min-w-0 flex-1">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
