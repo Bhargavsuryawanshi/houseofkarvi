@@ -159,7 +159,7 @@ export function FeaturedCarousel() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-brand-charcoal font-bold text-3xl md:text-4xl tracking-widest uppercase mb-[clamp(0.75rem,2vh,1.75rem)]"
+          className="text-brand-charcoal font-bold text-3xl md:text-3.9xl tracking-widest uppercase mb-[clamp(0.75rem,2vh,1.75rem)]"
         >
           COLLECTION
         </motion.h2>

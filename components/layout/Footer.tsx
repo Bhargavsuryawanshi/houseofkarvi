@@ -17,12 +17,12 @@ export function Footer() {
       {/* CHANGED: max-w-7xl mx-auto -> site-container (point 2), mt-20 -> mt-12 (point 3) */}
       <div className="site-container grid grid-cols-1 md:grid-cols-4 gap-10 items-start">
         <div className="md:col-span-1">
-          <Link href="/" className="block relative h-10 w-48 opacity-90 overflow-visible">
+          <Link href="/" className="block relative h-14 w-52 opacity-95 overflow-visible">
              <Image 
                 src="/HOK Logo_ White font.png" 
                 alt="Houseofkarvi" 
                 fill 
-                className="object-contain object-left origin-left scale-125 sm:scale-150" 
+                className="object-contain object-left origin-left scale-150 sm:scale-175" 
                 priority
               />
           </Link>
@@ -30,14 +30,18 @@ export function Footer() {
 
         <div>
           <h4 className="text-white font-bold mb-4">Location</h4>
-          <p className="text-sm font-light text-white/70">Kalol, Gandhinagar</p>
-          <p className="text-sm font-light text-white/70">Visit by appointment only.</p>
+          <div className="space-y-2 text-sm font-light text-white/70">
+            <p>Kalol, Gandhinagar</p>
+            <p>Visit by appointment only.</p>
+          </div>
         </div>
 
         <div>
           <h4 className="text-white font-bold mb-4">Contact</h4>
-          <p className="text-sm font-light text-white/70">+91 93277 20914</p>
-          <p className="text-sm font-light text-white/70">houseofkarvi.dw@gmail.com</p>
+          <div className="space-y-2 text-sm font-light text-white/70">
+            <p>+91 93277 20914</p>
+            <p>houseofkarvi.dw@gmail.com</p>
+          </div>
         </div>
 
         <div>
