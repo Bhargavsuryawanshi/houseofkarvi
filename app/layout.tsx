@@ -19,16 +19,29 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: 'Houseofkarvi | Premium Luxury Furniture',
+  title: 'Houseofkarvi | Furniture Design Studio',
   description: 'Discover unparalleled craftsmanship and minimalist Japandi design with Houseofkarvi.',
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon-48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/icon-96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/icon-144.png', sizes: '144x144', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   openGraph: {
-    title: 'Houseofkarvi | Premium Luxury Furniture',
+    title: 'Houseofkarvi | Furniture Design Studio',
     description: 'Discover unparalleled craftsmanship and minimalist Japandi design with Houseofkarvi.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Houseofkarvi | Premium Luxury Furniture',
+    title: 'Houseofkarvi | Furniture Design Studio',
     description: 'Discover unparalleled craftsmanship and minimalist Japandi design with Houseofkarvi.',
   },
 };

@@ -29,12 +29,11 @@ export function Story() {
                 className="w-full aspect-[4/5] relative bg-brand-ivory mb-3"
               >
                 <Image
-                  src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/00012.png"
+                  src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/20260905_063905000_iOS.jpg"
                   alt="Shell"
                   fill
                   className="object-cover"
                   referrerPolicy="no-referrer"
-                  unoptimized
                   draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
                   onDragStart={(e) => e.preventDefault()}
@@ -52,12 +51,11 @@ export function Story() {
                 className="w-full aspect-[4/5] relative bg-brand-ivory mb-3"
               >
                 <Image
-                  src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/hok 004.jpg"
+                  src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/20260905_070222000_iOS.jpg"
                   alt="Scrawny"
                   fill
                   className="object-cover"
                   referrerPolicy="no-referrer"
-                  unoptimized
                   draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
                   onDragStart={(e) => e.preventDefault()}
@@ -67,27 +65,28 @@ export function Story() {
             </div>
           </div>
 
-          <div className="w-1/2 min-w-0 flex flex-col">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="w-full aspect-[3/4] relative bg-brand-ivory mb-3"
-            >
-              <Image
-                src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/20260901_070301000_iOS.jpg"
-                alt="Bandhu"
-                fill
-                className="object-cover"
-                referrerPolicy="no-referrer"
-                unoptimized
-                draggable={false}
-                onContextMenu={(e) => e.preventDefault()}
-                onDragStart={(e) => e.preventDefault()}
-              />
-            </motion.div>
-            <p className="text-sm tracking-wider uppercase font-medium text-left text-brand-charcoal/60">BANDHU</p>
+          <div className="w-1/2 min-w-0 flex flex-col gap-8">
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="w-full aspect-[4/5] relative bg-brand-ivory mb-3"
+              >
+                <Image
+                  src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/20260901_070301000_iOS.jpg"
+                  alt="Bandhu"
+                  fill
+                  className="object-cover"
+                  referrerPolicy="no-referrer"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
+                />
+              </motion.div>
+              <p className="text-sm tracking-wider uppercase font-medium text-left text-brand-charcoal/60">BANDHU</p>
+            </div>  
           </div>
         </div>
 
@@ -131,12 +130,11 @@ export function Story() {
                 className="w-full aspect-[4/5] relative bg-brand-ivory mb-3"
               >
                 <Image
-                  src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/20260905_063905000_iOS.jpg"
+                  src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/hok 004.jpg"
                   alt="Kashi"
                   fill
                   className="object-cover"
                   referrerPolicy="no-referrer"
-                  unoptimized
                   draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
                   onDragStart={(e) => e.preventDefault()}
@@ -154,12 +152,11 @@ export function Story() {
                 className="w-full aspect-[4/5] relative bg-brand-ivory mb-3"
               >
                 <Image
-                  src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/20260905_070222000_iOS.jpg"
+                  src="/Second furniture page-20260912T061849Z-1-001/Second furniture page/00012.png"
                   alt="Ovate"
                   fill
                   className="object-cover"
                   referrerPolicy="no-referrer"
-                  unoptimized
                   draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
                   onDragStart={(e) => e.preventDefault()}

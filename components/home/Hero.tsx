@@ -39,7 +39,6 @@ export function Hero() {
               className="object-cover object-center"
               priority
               referrerPolicy="no-referrer"
-              unoptimized
               draggable={false}
               onContextMenu={(e) => e.preventDefault()}
               onDragStart={(e) => e.preventDefault()}
